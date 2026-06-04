@@ -154,7 +154,7 @@ export default function Contact() {
               </h4>
               <div className="flex space-x-4">
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/company/tsquare-labs/?viewAsMember=true"
                   target="_blank"
                   rel="noreferrer"
                   className="w-12 h-12 rounded-xl bg-card border border-border text-foreground/70 hover:text-foreground hover:border-accent flex items-center justify-center transition-colors"

@@ -53,7 +53,7 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex items-center space-x-4 pt-2">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/tsquare-labs/?viewAsMember=true"
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded-lg bg-card border border-border hover:border-accent text-foreground/70 hover:text-foreground flex items-center justify-center transition-all duration-200"
@@ -71,7 +71,7 @@ export default function Footer() {
                 <FaGithub size={18} />
               </a>
               <a
-                href="https://wa.me/your-number"
+                href="https://wa.me/923254828492"
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded-lg bg-card border border-border hover:border-accent text-foreground/70 hover:text-foreground flex items-center justify-center transition-all duration-200"
