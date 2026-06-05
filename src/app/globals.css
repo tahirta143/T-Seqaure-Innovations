@@ -89,12 +89,17 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* ─── GRID BACKGROUND ────────────────────────────────────────────────── */
+/* ─── GRID BACKGROUND (HERO ONLY) ──────────────────────────────────────── */
 .grid-bg {
   background-size: 40px 40px;
   background-image:
     linear-gradient(to right, var(--grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+}
+
+/* ─── SOLID BACKGROUND (SECTIONS) ────────────────────────────────────────── */
+.bg-background {
+  background-color: var(--background);
 }
 
 /* ─── GLASS / ELEVATED CARD ──────────────────────────────────────────── */

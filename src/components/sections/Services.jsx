@@ -170,7 +170,7 @@ export default function Services() {
     <section
       id="services"
       ref={containerRef}
-      className="py-24 relative overflow-hidden grid-bg"
+      className="py-24 relative overflow-hidden bg-background"
     >
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
 

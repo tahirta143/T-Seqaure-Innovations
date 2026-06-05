@@ -68,7 +68,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={containerRef}
-      className="py-24 relative overflow-hidden bg-background text-foreground border-t border-border grid-bg transition-colors duration-300"
+      className="py-24 relative overflow-hidden bg-background text-foreground border-t border-border  transition-colors duration-300"
     >
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
 
