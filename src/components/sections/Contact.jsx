@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Mail, Phone, MessageSquare } from "lucide-react";
+import { Mail, Phone, MessageSquare, ChevronDown, Check } from "lucide-react";
 import { FaWhatsapp, FaLinkedin, FaGithub } from "react-icons/fa";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,10 +10,71 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Reusable dropdown component
+function SelectDropdown({ label, options, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, []);
+
+  return (
+    <div className="space-y-2" ref={ref}>
+      <label className="text-[10px] font-bold text-foreground/55 uppercase tracking-widest">
+        {label}
+      </label>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-card border border-border hover:border-accent/60 focus:border-accent focus:outline-none text-sm text-foreground transition-colors"
+        >
+          <span className={value ? "text-foreground" : "text-foreground/40"}>
+            {value || `Select ${label}`}
+          </span>
+          <ChevronDown
+            size={15}
+            className={`text-foreground/50 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        {open && (
+          <div className="absolute z-50 top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
+            {options.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => {
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
+                className="w-full flex items-center justify-between px-4 py-3 text-sm text-left hover:bg-accent/10 hover:text-accent transition-colors border-b border-border/40 last:border-0"
+              >
+                <div className="flex items-center gap-2.5">
+                  {opt.icon && <span>{opt.icon}</span>}
+                  <span className="font-medium">{opt.label}</span>
+                </div>
+                {value === opt.value && (
+                  <Check size={14} className="text-accent flex-shrink-0" />
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Contact() {
   const containerRef = useRef(null);
-  const [projectType, setProjectType] = useState("Mobile App");
-  const [budget, setBudget] = useState("$10k - $25k");
+  const [projectType, setProjectType] = useState("");
+  const [budget, setBudget] = useState("");
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -22,12 +83,28 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const projectTypes = ["Mobile App", "Web Development", "AI Integration", "SaaS Platform", "UI/UX Design"];
-  const budgets = ["<$10k", "$10k - $25k", "$25k - $50k", "$50k - $100k", "$100k+"];
+  const projectTypeOptions = [
+    { value: "Mobile App", label: "Mobile App", icon: "📱" },
+    { value: "Web Development", label: "Web Development", icon: "🌐" },
+    { value: "AI Integration", label: "AI Integration", icon: "🤖" },
+    { value: "API Development", label: "API Development", icon: "🔑" },
+    { value: "Odoo Development", label: "Odoo Development", icon: "⚙️" },
+    { value: "SaaS Platform", label: "SaaS Platform", icon: "💻" },
+    { value: "Other", label: "Other / Not Sure", icon: "💬" },
+  ];
+
+  const budgetOptions = [
+    { value: "<$5k", label: "Less than $5,000", icon: "💵" },
+    { value: "$5k–$10k", label: "$5,000 – $10,000", icon: "💵" },
+    { value: "$10k–$25k", label: "$10,000 – $25,000", icon: "💰" },
+    { value: "$25k–$50k", label: "$25,000 – $50,000", icon: "💰" },
+    { value: "$50k–$100k", label: "$50,000 – $100,000", icon: "🏦" },
+    { value: "$100k+", label: "$100,000+", icon: "🏦" },
+    { value: "Not sure", label: "Not sure yet", icon: "🤔" },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // SLIDE IN FROM RIGHT
       gsap.fromTo(
         ".contact-inner-container",
         { opacity: 0, x: 80 },
@@ -49,10 +126,7 @@ export default function Contact() {
   }, []);
 
   const handleInputChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -61,6 +135,8 @@ export default function Contact() {
     setTimeout(() => {
       setSubmitted(false);
       setFormState({ name: "", email: "", company: "", message: "" });
+      setProjectType("");
+      setBudget("");
     }, 3000);
   };
 
@@ -68,12 +144,12 @@ export default function Contact() {
     <section
       id="contact"
       ref={containerRef}
-      className="py-24 relative overflow-hidden bg-background text-foreground border-t border-border  transition-colors duration-300"
+      className="py-24 relative overflow-hidden bg-background text-foreground border-t border-border transition-colors duration-300"
     >
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="contact-inner-container max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
           <span className="text-sm font-extrabold uppercase tracking-widest text-accent">
@@ -83,21 +159,21 @@ export default function Contact() {
             Let's Construct Something Remarkable
           </h2>
           <p className="text-sm sm:text-base text-foreground/70 leading-relaxed">
-            Have a project or design in mind? Fill out the brief form below and our engineering team will get back to you within 24 hours.
+            Have a project in mind? Fill out the form below and our team will get back to you within 24 hours.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          
-          {/* Left: Contact Info Widgets (5 Cols) */}
+
+          {/* Left: Contact Info */}
           <div className="lg:col-span-5 space-y-8">
             <h3 className="text-xl font-bold border-b border-border/40 pb-4 mb-6">
               Contact Information
             </h3>
-            
+
             <div className="space-y-6">
               <a
-                href="mailto:info@tsquaretechnologies.com"
+                href="mailto:tsquareinnovations.info@gmail.com"
                 className="flex items-start space-x-4 p-6 rounded-2xl glass-card border border-border hover:border-accent transition-colors"
               >
                 <div className="p-3 rounded-xl bg-card border border-border text-accent">
@@ -114,7 +190,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="https://wa.me/your-number"
+                href="https://wa.me/923254828492"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-start space-x-4 p-6 rounded-2xl glass-card border border-border hover:border-accent transition-colors"
@@ -126,9 +202,7 @@ export default function Contact() {
                   <h4 className="text-sm font-bold text-foreground/55 uppercase tracking-widest mb-1">
                     WhatsApp Chat
                   </h4>
-                  <p className="text-base font-semibold">
-                    +92 325 4828492
-                  </p>
+                  <p className="text-base font-semibold">+92 325 4828492</p>
                 </div>
               </a>
 
@@ -140,14 +214,12 @@ export default function Contact() {
                   <h4 className="text-sm font-bold text-foreground/55 uppercase tracking-widest mb-1">
                     Direct Phone
                   </h4>
-                  <p className="text-base font-semibold">
-                    +92 325 4828492
-                  </p>
+                  <p className="text-base font-semibold">+92 325 4828492</p>
                 </div>
               </div>
             </div>
 
-            {/* Social handles */}
+            {/* Socials */}
             <div className="pt-6">
               <h4 className="text-xs font-bold text-foreground/55 uppercase tracking-widest mb-4">
                 Connect on Social Networks
@@ -175,7 +247,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right: Contact Form (7 Cols) */}
+          {/* Right: Contact Form */}
           <div className="lg:col-span-7">
             <form
               onSubmit={handleSubmit}
@@ -185,54 +257,24 @@ export default function Contact() {
                 Tell Us About Your Project
               </h3>
 
-              {/* Project Type Select Pills */}
-              <div className="space-y-3">
-                <label className="text-xs font-bold text-foreground/55 uppercase tracking-widest">
-                  What kind of project?
-                </label>
-                <div className="flex flex-wrap gap-2.5">
-                  {projectTypes.map((type) => (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => setProjectType(type)}
-                      className={`px-4 py-2 rounded-xl text-xs font-semibold border transition-all ${
-                        projectType === type
-                          ? "bg-accent border-accent text-white shadow-[0_0_10px_var(--glow)]"
-                          : "bg-card border-border hover:border-accent/40 text-foreground/60 hover:text-foreground"
-                      }`}
-                    >
-                      {type}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {/* Project Type Dropdown */}
+              <SelectDropdown
+                label="What kind of project?"
+                options={projectTypeOptions}
+                value={projectType}
+                onChange={setProjectType}
+              />
 
-              {/* Budget Select Pills */}
-              <div className="space-y-3 pt-2">
-                <label className="text-xs font-bold text-foreground/55 uppercase tracking-widest">
-                  Project budget (USD)
-                </label>
-                <div className="flex flex-wrap gap-2.5">
-                  {budgets.map((range) => (
-                    <button
-                      key={range}
-                      type="button"
-                      onClick={() => setBudget(range)}
-                      className={`px-4 py-2 rounded-xl text-xs font-semibold border transition-all ${
-                        budget === range
-                          ? "bg-accent border-accent text-white shadow-[0_0_10px_var(--glow)]"
-                          : "bg-card border-border hover:border-accent/40 text-foreground/60 hover:text-foreground"
-                      }`}
-                    >
-                      {range}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {/* Budget Dropdown */}
+              <SelectDropdown
+                label="Project budget (USD)"
+                options={budgetOptions}
+                value={budget}
+                onChange={setBudget}
+              />
 
-              {/* User Inputs Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+              {/* Name + Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold text-foreground/55 uppercase tracking-widest">
                     Your Name
@@ -244,7 +286,7 @@ export default function Contact() {
                     onChange={handleInputChange}
                     required
                     placeholder="e.g. John Doe"
-                    className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground"
+                    className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground transition-colors"
                   />
                 </div>
                 <div className="space-y-2">
@@ -258,11 +300,12 @@ export default function Contact() {
                     onChange={handleInputChange}
                     required
                     placeholder="e.g. john@company.com"
-                    className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground"
+                    className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground transition-colors"
                   />
                 </div>
               </div>
 
+              {/* Company */}
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-foreground/55 uppercase tracking-widest">
                   Company Name (Optional)
@@ -273,10 +316,11 @@ export default function Contact() {
                   value={formState.company}
                   onChange={handleInputChange}
                   placeholder="e.g. Acme Corp"
-                  className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground"
+                  className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground transition-colors"
                 />
               </div>
 
+              {/* Message */}
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-foreground/55 uppercase tracking-widest">
                   Project Message
@@ -288,7 +332,7 @@ export default function Contact() {
                   required
                   rows={4}
                   placeholder="Describe your project, deadlines, and technical goals..."
-                  className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-accent focus:outline-none text-sm text-foreground resize-none transition-colors"
                 />
               </div>
 
@@ -297,13 +341,14 @@ export default function Contact() {
                 className="glow-btn w-full py-4 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-sm shadow-[0_0_15px_var(--glow)] transition-colors flex items-center justify-center space-x-2"
               >
                 <MessageSquare size={16} />
-                <span>{submitted ? "Message Sent Successfully!" : "Submit Project Inquiry"}</span>
+                <span>
+                  {submitted ? "Message Sent Successfully! ✓" : "Submit Project Inquiry"}
+                </span>
               </button>
             </form>
           </div>
 
         </div>
-
       </div>
     </section>
   );

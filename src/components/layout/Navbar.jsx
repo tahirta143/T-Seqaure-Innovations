@@ -8,39 +8,39 @@ import navbarLogo from "@/app/navbar-logo.png";
 
 const services = [
   {
-    icon: "🌐",
-    title: "Web Development",
-    desc: "Fast, modern websites & web apps built with React & Next.js",
-    color: "bg-accent/20",
-  },
-  {
     icon: "📱",
-    title: "Mobile Apps",
-    desc: "Cross-platform iOS & Android apps with React Native",
+    title: "Mobile App Development",
+    desc: "iOS & Android apps built with Flutter & React Native",
     color: "bg-emerald-500/20",
   },
   {
-    icon: "🎨",
-    title: "UI/UX Design",
-    desc: "Pixel-perfect designs that convert visitors to customers",
-    color: "bg-amber-500/20",
+    icon: "🌐",
+    title: "Web Development",
+    desc: "Fast, modern websites & web apps with Next.js & React",
+    color: "bg-accent/20",
   },
   {
     icon: "🤖",
     title: "AI Integration",
-    desc: "Embed smart AI features into your existing products",
+    desc: "Embed ChatGPT, Claude & LangChain into your products",
     color: "bg-red-500/20",
   },
   {
-    icon: "⚙️",
-    title: "Backend & APIs",
-    desc: "Scalable servers, REST & GraphQL APIs, databases",
+    icon: "🔑",
+    title: "API Development",
+    desc: "REST & GraphQL APIs, third-party integrations & webhooks",
     color: "bg-violet-500/20",
   },
   {
-    icon: "☁️",
-    title: "Cloud & DevOps",
-    desc: "CI/CD pipelines, AWS/Vercel deployments & monitoring",
+    icon: "⚙️",
+    title: "Odoo Development",
+    desc: "Custom Odoo modules, ERP setup & business automation",
+    color: "bg-amber-500/20",
+  },
+  {
+    icon: "💻",
+    title: "Software Engineering",
+    desc: "SaaS platforms, automation tools & full-stack solutions",
     color: "bg-teal-500/20",
   },
 ];
@@ -156,13 +156,12 @@ export default function Navbar() {
 
             {/* Mega Dropdown */}
             <div
-              className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[560px] bg-card border border-border rounded-2xl shadow-2xl p-5 transition-all duration-200 ${
+              className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[580px] bg-card border border-border rounded-2xl shadow-2xl p-5 transition-all duration-200 ${
                 servicesOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 translate-y-2 pointer-events-none"
               }`}
             >
-              {/* Caret arrow */}
               <div className="absolute -top-[7px] left-1/2 -translate-x-1/2 w-3.5 h-3.5 bg-card border-l border-t border-border rotate-45" />
 
               <p className="text-[11px] font-semibold tracking-widest uppercase text-foreground/40 mb-4 pb-3 border-b border-border">
@@ -265,7 +264,6 @@ export default function Navbar() {
       >
         <nav className="flex flex-col space-y-2 overflow-y-auto">
 
-          {/* Home */}
           <a
             href="#"
             onClick={(e) => handleScrollTo(e, "#")}
@@ -310,7 +308,6 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Other links */}
           {navLinks.map((link) => (
             <a
               key={link.name}
