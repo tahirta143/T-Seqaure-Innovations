@@ -33,7 +33,6 @@ function PopupSelect({ label, options, value, onChange }) {
               className="w-full flex items-center justify-between px-4 py-2.5 text-sm text-left hover:bg-accent/10 hover:text-accent transition-colors border-b border-border/40 last:border-0"
             >
               <div className="flex items-center gap-2">
-                {opt.icon && <span>{opt.icon}</span>}
                 <span className="font-medium">{opt.label}</span>
               </div>
               {value === opt.value && <Check size={13} className="text-accent flex-shrink-0" />}
@@ -51,6 +50,8 @@ export default function ContactPopup() {
   const [budget, setBudget] = useState("");
   const [formState, setFormState] = useState({ name: "", email: "", company: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 500);
@@ -61,37 +62,68 @@ export default function ContactPopup() {
     setShow(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setShow(false);
-      setSubmitted(false);
-      setFormState({ name: "", email: "", company: "", message: "" });
-      setProjectType("");
-      setBudget("");
-    }, 2500);
+    setLoading(true);
+    setError("");
+    setSubmitted(false);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formState,
+          projectType,
+          budget,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitted(true);
+        setFormState({ name: "", email: "", company: "", message: "" });
+        setProjectType("");
+        setBudget("");
+        setTimeout(() => {
+          setShow(false);
+          setSubmitted(false);
+        }, 3000);
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Unable to connect to the server.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!show) return null;
 
   const projectTypeOptions = [
-    { value: "Mobile App", label: "Mobile App", icon: "📱" },
-    { value: "Web Development", label: "Web Development", icon: "🌐" },
-    { value: "AI Integration", label: "AI Integration", icon: "🤖" },
-    { value: "API Development", label: "API Development", icon: "🔑" },
-    { value: "Odoo Development", label: "Odoo Development", icon: "⚙️" },
-    { value: "SaaS Platform", label: "SaaS Platform", icon: "💻" },
-    { value: "Other", label: "Other / Not Sure", icon: "💬" },
+    { value: "Mobile App", label: "Mobile App" },
+    { value: "Web Development", label: "Web Development" },
+    { value: "AI Integration", label: "AI Integration" },
+    { value: "API Development", label: "API Development" },
+    { value: "Odoo Development", label: "Odoo Development" },
+    { value: "SaaS Platform", label: "SaaS Platform" },
+    { value: "Other", label: "Other / Not Sure" },
   ];
 
   const budgetOptions = [
-    { value: "<$5k", label: "Less than $5,000", icon: "💵" },
-    { value: "$5k–$10k", label: "$5,000 – $10,000", icon: "💵" },
-    { value: "$10k–$25k", label: "$10,000 – $25,000", icon: "💰" },
-    { value: "$25k–$50k", label: "$25,000 – $50,000", icon: "💰" },
-    { value: "$50k+", label: "$50,000+", icon: "🏦" },
-    { value: "Not sure", label: "Not sure yet", icon: "🤔" },
+    { value: "<20k PKR", label: "Less than 20,000 PKR" },
+    { value: "20k–50k PKR", label: "20,000 – 50,000 PKR" },
+    { value: "50k–100k PKR", label: "50,000 – 100,000 PKR" },
+    { value: "100k–250k PKR", label: "100,000 – 250,000 PKR" },
+    { value: "250k–500k PKR", label: "250,000 – 500,000 PKR" },
+    { value: "500k–1M PKR", label: "500,000 – 1,000,000 PKR" },
+    { value: "1M+ PKR", label: "1,000,000+ PKR" },
+    { value: "Not sure", label: "Not sure yet" },
   ];
 
   return (
@@ -136,7 +168,8 @@ export default function ContactPopup() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <PopupSelect label="Project Type" options={projectTypeOptions} value={projectType} onChange={setProjectType} />
-            <PopupSelect label="Budget (USD)" options={budgetOptions} value={budget} onChange={setBudget} />
+            
+            <PopupSelect label="Budget (PKR)" options={budgetOptions} value={budget} onChange={setBudget} />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -191,12 +224,25 @@ export default function ContactPopup() {
             />
           </div>
 
+          {error && (
+            <p className="text-red-500 text-xs font-semibold text-center mt-2">
+              {error}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="glow-btn w-full py-3.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-sm shadow-[0_0_15px_var(--glow)] transition-colors flex items-center justify-center space-x-2"
+            disabled={loading}
+            className="glow-btn w-full py-3.5 rounded-xl bg-accent hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm shadow-[0_0_15px_var(--glow)] transition-colors flex items-center justify-center space-x-2"
           >
             <MessageSquare size={15} />
-            <span>{submitted ? "Sent Successfully! ✓" : "Submit Project Inquiry"}</span>
+            <span>
+              {loading
+                ? "Sending..."
+                : submitted
+                ? "Sent Successfully! ✓"
+                : "Submit Project Inquiry"}
+            </span>
           </button>
         </form>
       </div>
