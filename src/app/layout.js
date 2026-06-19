@@ -8,11 +8,15 @@ const outfit = Outfit({
   display: "swap",
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata = {
   title: "T Square Innovations | Transforming Ideas Into Digital Products",
   description: "T Square Innovations is a premium software agency building high-performance mobile apps, web solutions, AI agents, and custom SaaS platforms.",
   keywords: "Flutter Development, React Native, Next.js Development, Full Stack Development, AI Chatbots, AI Agents, SaaS, UI/UX Design",
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
 };
 

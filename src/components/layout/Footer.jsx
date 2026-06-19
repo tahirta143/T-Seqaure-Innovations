@@ -11,16 +11,16 @@ export default function Footer() {
 
   const handleScrollTo = (e, href) => {
     e.preventDefault();
+    if (href === "body" || href === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     const targetElement = document.querySelector(href);
     if (targetElement) {
-      if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(targetElement, { offset: -80 });
-      } else {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80,
-          behavior: "smooth",
-        });
-      }
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: "smooth",
+      });
     }
   };
 

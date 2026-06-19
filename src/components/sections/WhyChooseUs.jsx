@@ -1,68 +1,37 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import { Zap, ShieldCheck, HeartHandshake, BrainCircuit, HardDriveDownload, Hammer } from "lucide-react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 export default function WhyChooseUs() {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // SLIDE IN FROM LEFT
-      gsap.fromTo(
-        ".why-inner-container",
-        { opacity: 0, x: -80 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   const features = [
     {
-      icon: <Zap className="w-5 h-5 text-amber-500" />,
+      icon: <Zap className="w-5 h-5 text-[#6E1A37]" />,
       title: "Fast Delivery",
       description: "We optimize workflows and iterate quickly, shipping fully functional software updates without delays.",
     },
     {
-      icon: <Hammer className="w-5 h-5 text-blue-500" />,
+      icon: <Hammer className="w-5 h-5 text-[#6E1A37]" />,
       title: "Modern Technologies",
       description: "We code using state-of-the-art Next.js 15, Flutter, and server systems that stand out.",
     },
     {
-      icon: <ShieldCheck className="w-5 h-5 text-emerald-500" />,
+      icon: <ShieldCheck className="w-5 h-5 text-[#6E1A37]" />,
       title: "Clean Architecture",
       description: "We implement testable, clean designs (SOLID, MVVM, Clean Architecture) so modifications are simple.",
     },
     {
-      icon: <BrainCircuit className="w-5 h-5 text-pink-500" />,
+      icon: <BrainCircuit className="w-5 h-5 text-[#6E1A37]" />,
       title: "AI Expertise",
       description: "We build smart agents, LangChain wrappers, and custom model integrations directly in production.",
     },
     {
-      icon: <HardDriveDownload className="w-5 h-5 text-violet-500" />,
+      icon: <HardDriveDownload className="w-5 h-5 text-[#6E1A37]" />,
       title: "Scalable Systems",
-      description: "We configure containerized clusters and modular backend code that supports expansion.",
+      description: "We configure containerized environments, replication strategies, server caches, and scalable cloud structures.",
     },
     {
-      icon: <HeartHandshake className="w-5 h-5 text-rose-500" />,
+      icon: <HeartHandshake className="w-5 h-5 text-[#6E1A37]" />,
       title: "Long-Term Support",
       description: "We provide maintenance, regular updates, optimization reviews, and active 24/7 dev monitoring.",
     },
@@ -71,7 +40,6 @@ export default function WhyChooseUs() {
   return (
     <section
       id="why-choose-us"
-      ref={containerRef}
       className="py-24 relative overflow-hidden bg-card/10 border-y border-border"
     >
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>

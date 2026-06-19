@@ -1,116 +1,11 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Smartphone,
-  Globe,
-  BrainCircuit,
-  Key,
-  Settings2,
-  Code2,
-} from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-// 3D Tilt Card Component
-function ServiceCard({ icon, title, description, badge, details }) {
-  const cardRef = useRef(null);
-
-  const handleMouseMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const normalizedX = x / rect.width - 0.5;
-    const normalizedY = y / rect.height - 0.5;
-    const rotateX = -normalizedY * 18;
-    const rotateY = normalizedX * 18;
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    card.style.setProperty("--x", `${x}px`);
-    card.style.setProperty("--y", `${y}px`);
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (!card) return;
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="service-card-item relative h-full p-8 rounded-2xl glass-card border border-border flex flex-col justify-between overflow-hidden transition-all duration-200 ease-out select-none radial-glow"
-      style={{ "--x": "50%", "--y": "50%" }}
-    >
-      <div className="absolute inset-0 bg-radial from-accent/5 to-transparent opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
-
-      <div>
-        <div className="flex items-center justify-between mb-8">
-          <div className="p-3.5 rounded-xl bg-card border border-border text-accent shadow-md">
-            {icon}
-          </div>
-          {badge && (
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent">
-              {badge}
-            </span>
-          )}
-        </div>
-
-        <h3 className="text-xl font-bold mb-4">{title}</h3>
-        <p className="text-sm text-foreground/80 dark:text-gray-400 leading-relaxed mb-6">
-          {description}
-        </p>
-      </div>
-
-      <div className="border-t border-border/50 pt-4 mt-auto">
-        <ul className="flex flex-wrap gap-2">
-          {details.map((detail, idx) => (
-            <li
-              key={idx}
-              className="text-[10px] font-semibold px-2 py-0.5 rounded bg-foreground/5 text-foreground/70"
-            >
-              {detail}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
+import React from "react";
+import { Smartphone, Globe, BrainCircuit, Key, Settings2, Code2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function Services() {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".services-header, .service-card-item",
-        { opacity: 0, x: -80 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   const servicesData = [
     {
       icon: <Smartphone className="w-6 h-6" />,
@@ -165,7 +60,6 @@ export default function Services() {
   return (
     <section
       id="services"
-      ref={containerRef}
       className="py-24 relative overflow-hidden bg-background"
     >
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
@@ -187,14 +81,43 @@ export default function Services() {
         {/* Services Grid */}
         <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {servicesData.map((service, index) => (
-            <ServiceCard
+            <Card
               key={index}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              badge={service.badge}
-              details={service.details}
-            />
+              className="relative h-full border border-border bg-card/50 hover:border-accent/40 shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8"
+            >
+              <CardHeader className="p-0 space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="p-3.5 rounded-xl bg-card border border-border text-accent shadow-sm flex-shrink-0">
+                    {service.icon}
+                  </div>
+                  {service.badge && (
+                    <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full bg-accent/5 border-accent/15 text-accent">
+                      {service.badge}
+                    </Badge>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
+                  <CardDescription className="text-sm text-foreground/80 dark:text-gray-400 leading-relaxed">
+                    {service.description}
+                  </CardDescription>
+                </div>
+              </CardHeader>
+
+              <CardContent className="p-0 border-t border-border/40 pt-4 mt-6">
+                <div className="flex flex-wrap gap-1.5">
+                  {service.details.map((detail, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[10px] font-semibold px-2 py-0.5 rounded bg-foreground/5 text-foreground/70 border border-foreground/5"
+                    >
+                      {detail}
+                    </span>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

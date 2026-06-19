@@ -1,41 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import { ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 export default function Products() {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".products-header, .product-card",
-        { opacity: 0, x: 80 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   const productsData = [
     {
       title: "Expense Tracker App",
@@ -108,7 +77,6 @@ export default function Products() {
   return (
     <section
       id="products"
-      ref={containerRef}
       className="py-24 relative overflow-hidden bg-background"
     >
       {/* Decorative blob */}
@@ -137,11 +105,7 @@ export default function Products() {
               key={index}
               className="product-card rounded-2xl border border-border bg-card/40 backdrop-blur-md overflow-hidden flex flex-col hover:border-accent/40 shadow-lg group hover:-translate-y-1 transition-all duration-300"
             >
-              {/* ─── Image Container ───────────────────────────────────────
-                  Fixed height (h-52 = 208px) so every card is uniform.
-                  object-top on hover smoothly pans to object-bottom,
-                  letting users "scroll" through tall mobile screenshots.
-              ──────────────────────────────────────────────────────────── */}
+              {/* Image Container */}
               <div className="relative w-full h-52 bg-gradient-to-br from-[#0c0c0e] to-[#16161a] overflow-hidden flex-shrink-0">
                 <img
                   src={project.image}
@@ -164,7 +128,7 @@ export default function Products() {
                 />
               </div>
 
-              {/* ─── Content ────────────────────────────────────────────── */}
+              {/* Content */}
               <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                 <div className="space-y-3">
                   <h3 className="text-xl font-bold group-hover:text-accent transition-colors">

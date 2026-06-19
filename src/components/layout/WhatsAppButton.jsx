@@ -13,10 +13,10 @@ export default function WhatsAppButton() {
       className="fixed bottom-6 right-6 z-[9999] group"
     >
       {/* Ping ring animation */}
-      <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30" />
+      <span className="absolute inset-0 rounded-full bg-[#6E1A37] animate-ping opacity-30" />
 
       {/* Button */}
-      <span className="relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] shadow-[0_4px_20px_rgba(37,211,102,0.5)] group-hover:shadow-[0_6px_28px_rgba(37,211,102,0.7)] group-hover:scale-110 transition-all duration-300">
+      <span className="relative flex items-center justify-center w-14 h-14 rounded-full bg-[#6E1A37] shadow-[#6E1A37] group-hover:shadow-[#6E1A37] group-hover:scale-110 transition-all duration-300">
         <FaWhatsapp size={28} className="text-white" />
       </span>
 

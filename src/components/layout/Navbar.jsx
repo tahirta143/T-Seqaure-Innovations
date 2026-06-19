@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useTheme } from "../Providers";
 import { Sun, Moon, Menu, X, ChevronDown } from "lucide-react";
 import navbarLogo from "@/app/navbar-logo.png";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 const services = [
   {
@@ -50,7 +52,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const servicesRef = useRef(null);
 
   useEffect(() => {
@@ -81,20 +82,12 @@ export default function Navbar() {
     setIsOpen(false);
     setServicesOpen(false);
     if (href === "#" || href === "body") {
-      if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(0);
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     const target = document.querySelector(href);
     if (!target) return;
-    if (window.lenisInstance) {
-      window.lenisInstance.scrollTo(target, { offset: -80 });
-    } else {
-      window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
-    }
+    window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
   };
 
   return (
@@ -246,91 +239,88 @@ export default function Navbar() {
           >
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-lg border border-border bg-card/50 text-foreground"
-            aria-label="Toggle Menu"
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
 
-      {/* Mobile Drawer */}
-      <div
-        className={`md:hidden fixed inset-y-0 right-0 z-45 w-full max-w-xs sm:max-w-sm bg-background/98 backdrop-blur-xl border-l border-border px-6 py-24 flex flex-col justify-between transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0 shadow-2xl" : "translate-x-full"
-        }`}
-      >
-        <nav className="flex flex-col space-y-2 overflow-y-auto">
+          {/* Shadcn Sheet for Drawer */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <button
+                className="p-2 rounded-lg border border-border bg-card/50 text-foreground"
+                aria-label="Toggle Menu"
+              >
+                <Menu size={20} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full max-w-xs sm:max-w-sm bg-background border-l border-border px-6 py-24 flex flex-col justify-between">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Navigation Menu</SheetTitle>
+              </SheetHeader>
+              
+              <nav className="flex flex-col space-y-2 overflow-y-auto">
+                <a
+                  href="#"
+                  onClick={(e) => handleScrollTo(e, "#")}
+                  className="text-xl font-semibold opacity-90 hover:text-accent transition-colors py-2"
+                >
+                  Home
+                </a>
 
-          <a
-            href="#"
-            onClick={(e) => handleScrollTo(e, "#")}
-            className="text-xl font-semibold opacity-90 hover:text-accent transition-colors py-2"
-          >
-            Home
-          </a>
+                {/* Mobile Services Shadcn Accordion */}
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="services" className="border-0">
+                    <AccordionTrigger className="text-xl font-semibold opacity-90 hover:text-accent transition-colors py-2 hover:no-underline [&_svg]:hidden">
+                      <span className="flex items-center justify-between w-full">
+                        Our Services
+                        <ChevronDown size={18} className="transition-transform duration-200 group-aria-expanded/accordion-trigger:rotate-180" />
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="mt-2 ml-2 flex flex-col gap-3 pb-3">
+                      {services.map((svc) => (
+                        <a
+                          key={svc.title}
+                          href="#services"
+                          onClick={(e) => handleScrollTo(e, "#services")}
+                          className="flex items-center gap-3 group"
+                        >
+                          <div
+                            className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 ${svc.color}`}
+                          >
+                            {svc.icon}
+                          </div>
+                          <span className="text-sm font-medium opacity-80 group-hover:text-accent transition-colors">
+                            {svc.title}
+                          </span>
+                        </a>
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
 
-          {/* Mobile Services Accordion */}
-          <div>
-            <button
-              onClick={() => setMobileServicesOpen((v) => !v)}
-              className="flex items-center justify-between w-full text-xl font-semibold opacity-90 hover:text-accent transition-colors py-2"
-            >
-              Our Services
-              <ChevronDown
-                size={18}
-                className={`transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-
-            {mobileServicesOpen && (
-              <div className="mt-2 ml-2 flex flex-col gap-3 pb-3">
-                {services.map((svc) => (
+                {navLinks.map((link) => (
                   <a
-                    key={svc.title}
-                    href="#services"
-                    onClick={(e) => handleScrollTo(e, "#services")}
-                    className="flex items-center gap-3 group"
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleScrollTo(e, link.href)}
+                    className="text-xl font-semibold opacity-90 hover:text-accent transition-colors py-2"
                   >
-                    <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 ${svc.color}`}
-                    >
-                      {svc.icon}
-                    </div>
-                    <span className="text-sm font-medium opacity-80 group-hover:text-accent transition-colors">
-                      {svc.title}
-                    </span>
+                    {link.name}
                   </a>
                 ))}
+              </nav>
+
+              <div className="flex flex-col space-y-4">
+                <a
+                  href="#contact"
+                  onClick={(e) => handleScrollTo(e, "#contact")}
+                  className="glow-btn w-full text-center py-3 rounded-lg bg-accent text-white font-semibold shadow-[0_0_15px_var(--glow)]"
+                >
+                  Book Consultation
+                </a>
+                <p className="text-xs text-center opacity-40">
+                  © {new Date().getFullYear()} T Square Technologies.
+                </p>
               </div>
-            )}
-          </div>
-
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleScrollTo(e, link.href)}
-              className="text-xl font-semibold opacity-90 hover:text-accent transition-colors py-2"
-            >
-              {link.name}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex flex-col space-y-4">
-          <a
-            href="#contact"
-            onClick={(e) => handleScrollTo(e, "#contact")}
-            className="glow-btn w-full text-center py-3 rounded-lg bg-accent text-white font-semibold shadow-[0_0_15px_var(--glow)]"
-          >
-            Book Consultation
-          </a>
-          <p className="text-xs text-center opacity-40">
-            © {new Date().getFullYear()} T Square Technologies.
-          </p>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

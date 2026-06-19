@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import Lenis from "lenis";
 
 const ThemeContext = createContext({
   theme: "dark",
@@ -42,39 +41,6 @@ export default function Providers({ children }) {
       document.documentElement.classList.remove("dark");
     }
   };
-
-  // Smooth scroll configuration
-  useEffect(() => {
-    if (!mounted) return;
-
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 2.0,
-      infinite: false,
-    });
-
-    // Connect Lenis to requestAnimationFrame
-    let animationFrameId;
-    function raf(time) {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    }
-    animationFrameId = requestAnimationFrame(raf);
-
-    // Make lenis global for gsap ScrollTrigger integration
-    window.lenisInstance = lenis;
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      lenis.destroy();
-      window.lenisInstance = null;
-    };
-  }, [mounted]);
 
   // Prevent flash before mounted
   if (!mounted) {
