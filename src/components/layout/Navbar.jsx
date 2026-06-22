@@ -10,39 +10,39 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 
 const services = [
   {
-    icon: "📱",
-    title: "Mobile App Development",
-    desc: "iOS & Android apps built with Flutter & React Native",
+    icon: "💼",
+    title: "Custom Business Software",
+    desc: "Tailored enterprise ERPs, database management, & workflow tools",
     color: "bg-emerald-500/20",
   },
   {
     icon: "🌐",
-    title: "Web Development",
-    desc: "Fast, modern websites & web apps with Next.js & React",
+    title: "Web Applications",
+    desc: "High-performance full-stack web apps using Next.js & React",
     color: "bg-accent/20",
   },
   {
-    icon: "🤖",
-    title: "AI Integration",
-    desc: "Embed ChatGPT, Claude & LangChain into your products",
-    color: "bg-red-500/20",
-  },
-  {
-    icon: "🔑",
-    title: "API Development",
-    desc: "REST & GraphQL APIs, third-party integrations & webhooks",
+    icon: "📱",
+    title: "Mobile Applications",
+    desc: "Native & cross-platform iOS & Android apps via Flutter & React Native",
     color: "bg-violet-500/20",
   },
   {
-    icon: "⚙️",
-    title: "Odoo Development",
-    desc: "Custom Odoo modules, ERP setup & business automation",
+    icon: "📦",
+    title: "Industry-Ready Products",
+    desc: "Pre-built, customizable SaaS products ready to launch immediately",
     color: "bg-amber-500/20",
   },
   {
+    icon: "🤖",
+    title: "AI Agents & Automation",
+    desc: "Embed intelligent agents, RAG, and LLM automation into workflows",
+    color: "bg-red-500/20",
+  },
+  {
     icon: "💻",
-    title: "Software Engineering",
-    desc: "SaaS platforms, automation tools & full-stack solutions",
+    title: "Odoo & ERP Integration",
+    desc: "Custom modules, configurations, & integrations to fit your operations",
     color: "bg-teal-500/20",
   },
 ];
@@ -71,7 +71,7 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Our Projects", href: "#products" },
+    { name: "Our Work", href: "#products" },
     { name: "About Us", href: "#about" },
     { name: "Why Us", href: "#why-choose-us" },
     { name: "Contact Us", href: "#contact" },
@@ -149,7 +149,7 @@ export default function Navbar() {
 
             {/* Mega Dropdown */}
             <div
-              className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[580px] bg-card border border-border rounded-2xl shadow-2xl p-5 transition-all duration-200 ${
+              className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[580px] bg-card border border-border rounded-2xl shadow-2xl p-5 transition-all duration-200 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 ${
                 servicesOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 translate-y-2 pointer-events-none"

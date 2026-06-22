@@ -25,7 +25,7 @@ export default function Home() {
         <Hero />
         <Services />
         <Products />
-        <TechStack />
+        {/* <TechStack /> */}
         <About />
         <WhyChooseUs />
         <Stats />

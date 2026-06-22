@@ -1,74 +1,66 @@
 "use client";
 
 import React from "react";
-import { ExternalLink } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
 
 export default function Products() {
   const productsData = [
     {
-      title: "Expense Tracker App",
-      type: "expense",
-      // color: "#10b981",
-      image: "/expense.png",
+      title: "Cognitive AI Agent",
+      type: "ai-agent",
+      image: "https://images.pexels.com/photos/8294657/pexels-photo-8294657.jpeg",
       description:
-        "Enterprise-grade financial monitor utilizing AI categorizations, instant invoices, and detailed chart analyses.",
-      techStack: ["Flutter", "Dart", "localDB", "OpenAI API"],
+        "Autonomous AI agent for workflow automation, customer operations, and intelligent data analysis using RAG and LLMs.",
+      techStack: ["Next.js", "LangChain", "OpenAI API", "Python", "Vector DB"],
       liveLink: "https://demo.example.com",
       gitLink: "https://github.com/example",
     },
     {
-      title: "Hims App",
-      type: "fitness",
-      // color: "#f43f5e",
-      image: "/app.png",
+      title: "Healthcare Management System (HIMS)",
+      type: "healthcare",
+      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80",
       description:
-        "HIMS is a healthcare management platform that streamlines hospital operations, including patient records, appointments, billing, prescriptions, and staff management.",
-      techStack: ["React Native", "Expo", "SQLite", "Reanimated"],
-      liveLink: "https://demo.example.com",
-      gitLink: "https://github.com/example",
-    },
-    {
-      title: "Hims Website",
-      type: "chatbot",
-      // color: "#3b82f6",
-      image: "/image.png",
-      description:
-        "HIMS is a healthcare management platform that streamlines hospital operations, including patient records, appointments, billing, prescriptions, and staff management.",
-      techStack: ["React", "Express.js", "MySql", "Node.js"],
+        "A comprehensive health management portal and mobile suite that streamlines hospital workflows, patient records, prescriptions, and billing.",
+      techStack: ["React Native", "Next.js", "Node.js", "PostgreSQL", "Expo"],
       liveLink: "https://waseeladiabesity.com/",
+      gitLink: "https://github.com/example",
+    },
+    {
+      title: "Gym Management System",
+      type: "gym",
+      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+      description:
+        "A robust gym operations system featuring member subscriptions, automated billing, scan-to-enter check-ins, and a custom mobile app for workout tracking.",
+      techStack: ["React", "React Native", "Express.js", "MongoDB", "Stripe API"],
+      liveLink: "https://demo.example.com",
+      gitLink: "https://github.com/example",
+    },
+    {
+      title: "Retail POS & Mobile App Ecosystem",
+      type: "pos",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
+      description:
+        "Offline-first point-of-sale terminal synced with real-time cloud analytics, multi-branch inventory management, and iOS/Android companion apps for store managers.",
+      techStack: ["Flutter", "Dart", "Node.js", "MongoDB", "Firebase"],
+      liveLink: "https://demo.example.com",
+      gitLink: "https://github.com/example",
+    },
+    {
+      title: "Enterprise E-Commerce Platform",
+      type: "ecommerce",
+      image: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=600&q=80",
+      description:
+        "High-performance online storefront with lightning-fast page loading, advanced product searching, dynamic admin panel, and secure Stripe payment gateway.",
+      techStack: ["Next.js", "Node.js", "PostgreSQL", "TailwindCSS", "Stripe API"],
+      liveLink: "https://demo.example.com",
       gitLink: "https://github.com/example",
     },
     {
       title: "School Management System",
       type: "school",
-      // color: "#a855f7",
-      image: "/image.png",
+      image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=600&q=80",
       description:
-        "Complete academic SaaS portal supporting grades, classroom management, fees invoices, and notifications.",
+        "Complete academic SaaS portal supporting grades, classroom management, fees invoicing, parental controls, and multi-user notification systems.",
       techStack: ["React", "Express.js", "PostgreSQL", "Node.js"],
-      liveLink: "https://demo.example.com",
-      gitLink: "https://github.com/example",
-    },
-    {
-      title: "Restaurant POS",
-      type: "pos",
-      // color: "#f59e0b",
-      image: "/image.png",
-      description:
-        "Offline-first point-of-sale tool with real-time kitchen syncing, order layouts, and automated receipt prints.",
-      techStack: ["Flutter", "Dart", "Hive DB", "Firebase"],
-      liveLink: "https://demo.example.com",
-      gitLink: "https://github.com/example",
-    },
-    {
-      title: "E-Commerce Platform",
-      type: "ecommerce",
-      // color: "#6366f1",
-      image: "/image.png",
-      description:
-        "Modern marketplace platform with optimized SEO grids, Stripe terminal checkouts, and custom dashboard reviews.",
-      techStack: ["Next.js", "PostgreSQL", "Stripe API", "TailwindCSS"],
       liveLink: "https://demo.example.com",
       gitLink: "https://github.com/example",
     },
@@ -87,26 +79,25 @@ export default function Products() {
         {/* Header */}
         <div className="products-header text-center max-w-2xl mx-auto mb-20 space-y-4">
           <span className="text-sm font-extrabold uppercase tracking-widest text-accent">
-            Our Products
+            Our Work
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Ready-Made SaaS Solutions & Platforms
+            Custom Systems & Software We've Built
           </h2>
           <p className="text-sm sm:text-base text-foreground/75 dark:text-gray-400 leading-relaxed">
-            In addition to custom client engineering, we build internal product
-            ecosystems. Check out our state-of-the-art SaaS assets.
+            We engineer next-generation applications and enterprise systems tailored to our clients' unique business requirements. Explore some of our key builds.
           </p>
         </div>
 
         {/* Products Grid */}
-        <div className="products-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="products-grid grid grid-cols-1 md:grid-cols-2 gap-8">
           {productsData.map((project, index) => (
             <div
               key={index}
-              className="product-card rounded-2xl border border-border bg-card/40 backdrop-blur-md overflow-hidden flex flex-col hover:border-accent/40 shadow-lg group hover:-translate-y-1 transition-all duration-300"
+              className="product-card rounded-2xl border border-border bg-card/40 backdrop-blur-md overflow-hidden flex flex-col lg:flex-row hover:border-accent/40 shadow-lg group hover:-translate-y-1 transition-all duration-300"
             >
               {/* Image Container */}
-              <div className="relative w-full h-52 bg-gradient-to-br from-[#0c0c0e] to-[#16161a] overflow-hidden flex-shrink-0">
+              <div className="relative w-full lg:w-1/2 h-52 lg:h-auto bg-gradient-to-br from-[#0c0c0e] to-[#16161a] overflow-hidden flex-shrink-0">
                 <img
                   src={project.image}
                   alt={project.title}
@@ -129,7 +120,7 @@ export default function Products() {
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+              <div className="p-6 space-y-4 flex-1 flex flex-col justify-between lg:w-1/2">
                 <div className="space-y-3">
                   <h3 className="text-xl font-bold group-hover:text-accent transition-colors">
                     {project.title}
@@ -139,7 +130,7 @@ export default function Products() {
                   </p>
                 </div>
 
-                <div className="pt-4 space-y-4">
+                <div className="pt-4">
                   {/* Tech Badges */}
                   <div className="flex flex-wrap gap-1.5">
                     {project.techStack.map((tech, idx) => (
@@ -150,28 +141,6 @@ export default function Products() {
                         {tech}
                       </span>
                     ))}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center space-x-3 pt-2 border-t border-border/50">
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 inline-flex items-center justify-center space-x-2 py-2 px-3 rounded-lg bg-accent text-white text-xs font-bold shadow-md hover:bg-accent/90 transition-colors"
-                    >
-                      <ExternalLink size={13} />
-                      <span>Live Demo</span>
-                    </a>
-                    <a
-                      href={project.gitLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-card border border-border text-foreground/80 hover:text-foreground hover:border-accent transition-colors"
-                      aria-label="GitHub Repository"
-                    >
-                      <FaGithub size={15} />
-                    </a>
                   </div>
                 </div>
               </div>

@@ -59,22 +59,43 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* Feature Grid */}
-        <div className="why-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, idx) => (
-            <div
-              key={idx}
-              className="why-card p-8 rounded-2xl glass-card border border-border flex flex-col items-start space-y-4 hover:translate-y-[-4px]"
-            >
-              <div className="p-3 rounded-xl bg-card border border-border">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-bold">{feature.title}</h3>
-              <p className="text-sm text-foreground/75 dark:text-gray-400 leading-relaxed">
-                {feature.description}
-              </p>
+        {/* Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Image with Floating Banner */}
+          <div className="lg:col-span-5 relative h-[480px] rounded-2xl overflow-hidden border border-border/80 shadow-xl group flex-shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80"
+              alt="Engineering Excellence"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 p-5 rounded-xl bg-card/90 backdrop-blur-md border border-border/50 shadow-lg">
+              <p className="text-[10px] font-bold text-accent uppercase tracking-widest mb-1">Our Standard</p>
+              <p className="text-xs font-extrabold text-foreground leading-snug">Elite engineering, zero-compromise code quality, and rapid release cycle.</p>
             </div>
-          ))}
+          </div>
+
+          {/* Right Column: Features Grid */}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {features.map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="why-card p-6 rounded-xl border border-border bg-card/20 hover:border-accent/30 transition-colors flex gap-4 items-start"
+                >
+                  <div className="p-2.5 rounded-lg bg-card border border-border text-accent flex-shrink-0">
+                    {feature.icon}
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold">{feature.title}</h3>
+                    <p className="text-xs text-foreground/75 dark:text-gray-400 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
       </div>

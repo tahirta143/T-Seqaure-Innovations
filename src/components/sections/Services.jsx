@@ -1,59 +1,65 @@
 "use client";
 
 import React from "react";
-import { Smartphone, Globe, BrainCircuit, Key, Settings2, Code2 } from "lucide-react";
+import { Smartphone, Globe, BrainCircuit, Settings2, Code2, Package } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default function Services() {
   const servicesData = [
     {
-      icon: <Smartphone className="w-6 h-6" />,
-      title: "Mobile App Development",
+      icon: <Code2 className="w-6 h-6" />,
+      title: "Custom Business Software",
       description:
-        "Beautiful, performant mobile apps for iOS and Android — from MVPs to full-scale products. We handle the full cycle: design, development, and deployment.",
-      badge: "Flagship",
-      details: ["Flutter", "React Native", "iOS", "Android"],
+        "Tailored enterprise solutions designed to streamline workflows, manage complex operations, and scale your business processes with custom databases and portals.",
+      badge: "Enterprise",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+      details: ["Custom ERP", "SaaS Portals", "Database Design", "Workflow Automation"],
     },
     {
       icon: <Globe className="w-6 h-6" />,
-      title: "Web Development",
+      title: "Web Applications",
       description:
-        "Fast, SEO-optimised full-stack web applications built with modern frameworks. Clean code, great UX, and pixel-perfect interfaces that convert.",
+        "High-performance, secure, responsive, and SEO-optimized web applications built with modern frontend and backend frameworks for flawless user experiences.",
       badge: "Core",
-      details: ["Next.js", "React", "TypeScript", "Node.js", "TailwindCSS"],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
+      details: ["Next.js", "React", "Node.js", "TypeScript", "TailwindCSS"],
+    },
+    {
+      icon: <Smartphone className="w-6 h-6" />,
+      title: "Mobile Applications",
+      description:
+        "Elegantly designed native and cross-platform mobile apps for iOS and Android, taking your product from concept to App Store and Google Play.",
+      badge: "Flagship",
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80",
+      details: ["Flutter", "React Native", "iOS", "Android", "Firebase"],
+    },
+    {
+      icon: <Package className="w-6 h-6" />,
+      title: "Industry-Ready Products",
+      description:
+        "Ready-to-deploy, fully customizable software products—including healthcare systems, POS ecosystems, and gym platforms—configured to match your brand.",
+      badge: "Turnkey",
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80",
+      details: ["Ready-Made SaaS", "White-Label", "Rapid Deployment", "Pre-built Modules"],
     },
     {
       icon: <BrainCircuit className="w-6 h-6" />,
-      title: "AI Integration",
+      title: "AI Agents & Automation",
       description:
-        "Embed powerful AI capabilities into your product — chatbots, content generation, smart search, and automation pipelines using the latest LLMs.",
-      badge: "Trending",
-      details: ["OpenAI", "Claude API", "LangChain", "RAG", "Agents"],
-    },
-    {
-      icon: <Key className="w-6 h-6" />,
-      title: "API Development & Integration",
-      description:
-        "Custom REST and GraphQL APIs built for scale. We also integrate third-party APIs — payment gateways, CRMs, social platforms, and more.",
-      badge: "Essential",
-      details: ["REST", "GraphQL", "Webhooks", "Stripe", "OAuth2"],
+        "Develop and deploy autonomous AI agents, smart chatbots, RAG pipelines, and automated intelligence integrations using state-of-the-art LLMs.",
+      badge: "AI First",
+      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
+      details: ["AI Agents", "LangChain", "OpenAI API", "Claude", "RAG Systems"],
     },
     {
       icon: <Settings2 className="w-6 h-6" />,
-      title: "Odoo Development",
+      title: "Odoo & ERP Integration",
       description:
         "Custom Odoo modules, ERP configuration, and business workflow automation. We tailor Odoo to fit your exact operations — not the other way around.",
       badge: "Specialist",
-      details: ["Odoo 16/17", "Custom Modules", "ERP", "Python", "XML"],
-    },
-    {
-      icon: <Code2 className="w-6 h-6" />,
-      title: "Software Engineering",
-      description:
-        "End-to-end software solutions across the stack — SaaS platforms, automation tools, dashboards, CLI tools, and anything in between.",
-      badge: "Full-Stack",
-      details: ["Python", "Django", "PostgreSQL", "Docker", "CI/CD"],
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
+      details: ["Odoo 16/17", "Custom Modules", "ERP Integration", "Python", "XML"],
     },
   ];
 
@@ -83,9 +89,19 @@ export default function Services() {
           {servicesData.map((service, index) => (
             <Card
               key={index}
-              className="relative h-full border border-border bg-card/50 hover:border-accent/40 shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8"
+              className="relative h-full border border-border bg-card/50 hover:border-accent/40 shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8 group"
             >
               <CardHeader className="p-0 space-y-6">
+                {/* Image Container */}
+                <div className="relative w-full h-44 rounded-xl overflow-hidden bg-[#0c0c0e]/30 flex-shrink-0 border border-border/20">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+                </div>
+
                 <div className="flex items-center justify-between">
                   <div className="p-3.5 rounded-xl bg-card border border-border text-accent shadow-sm flex-shrink-0">
                     {service.icon}
